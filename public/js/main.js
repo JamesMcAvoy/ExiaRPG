@@ -1,74 +1,74 @@
 var ground=[[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,0,1,0,1,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,1],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,1,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1,1,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]];
 
 
-var canvas = document.getElementById('main');
-var ctx = canvas.getContext('2d');
 
-var tileSize = 32;
-var rowTileCount = 20;
-var colTileCount = 32;
+var Game = {};
 
-function draw() {
-    for(i = 0; i<rowTileCount; i++) {
-        for(j = 0; j<colTileCount; j++) {
+Game.canvas = document.getElementById('main').getContext('2d');
+Game.tileSize = 32;
+Game.rowTileCount = 20;
+Game.colTileCount = 32;
+
+Game.draw = function() {
+    for(i = 0; i<this.rowTileCount; i++) {
+        for(j = 0; j<this.colTileCount; j++) {
             var tile = ground[i][j];
 
-            ctx.beginPath();
-            ctx.rect(j*tileSize, i*tileSize, tileSize, tileSize);
+            this.canvas.beginPath();
+            this.canvas.rect(j*this.tileSize, i*this.tileSize, this.tileSize, this.tileSize);
 
-            tile ? ctx.fillStyle = "brown" : ctx.fillStyle = "green";
+            tile ? this.canvas.fillStyle = "brown" : this.canvas.fillStyle = "green";
 
-            ctx.fill();
+            this.canvas.fill();
         }
     }
 }
 
-var Character = function(x, y) {
+Game.draw();
 
+function Character(x, y) {
     this.X = x;
     this.Y = y;
-    this.color = "black";
-
-    this.display = function() {
-        draw();
-        ctx.beginPath();
-        ctx.rect(this.Y*tileSize, this.X*tileSize, tileSize, tileSize);
-        ctx.fillStyle = "black";
-        ctx.fill();
-    }
-
-    this.down = function() {
-        if(!ground[this.X+1][this.Y]) {
-            this.X++;
-            this.display();
-        }
-    };
-
-    this.left = function() {
-        if(!ground[this.X][this.Y-1]) {
-            this.Y--;
-            this.display();
-        }
-    };
-
-    this.right = function() {
-        if(!ground[this.X][this.Y+1]) {
-            this.Y++;
-            this.display();
-        }
-    };
-
-    this.up = function() {
-        if(!ground[this.X-1][this.Y]) {
-            this.X--;
-            this.display();
-        }
-    };
-
-    this.display();
 }
 
+Character.prototype.display = function() {
+    Game.draw();
+    Game.canvas.beginPath();
+    Game.canvas.rect(this.Y*Game.tileSize, this.X*Game.tileSize, Game.tileSize, Game.tileSize);
+    Game.canvas.fillStyle = "black";
+    Game.canvas.fill();
+}
+
+Character.prototype.down = function() {
+    if(!ground[this.X+1][this.Y]) {
+        this.X++;
+        this.display();
+    }
+};
+
+Character.prototype.left = function() {
+    if(!ground[this.X][this.Y-1]) {
+        this.Y--;
+        this.display();
+    }
+};
+
+Character.prototype.right = function() {
+    if(!ground[this.X][this.Y+1]) {
+        this.Y++;
+        this.display();
+    }
+};
+
+Character.prototype.up = function() {
+    if(!ground[this.X-1][this.Y]) {
+        this.X--;
+        this.display();
+    }
+};
+
 var c = new Character(1, 1);
+c.display();
 
 
 document.onkeydown = function(e) {

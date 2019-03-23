@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Console\Application;
+use ExiaRPG\Command\RunServerCommand;
+
+require __DIR__ .'/../vendor/autoload.php';
+
+$cli = new Application;
+$cli->add(new RunServerCommand);
+$cli->setDefaultCommand((new RunServerCommand)->getName());
+$cli->run();

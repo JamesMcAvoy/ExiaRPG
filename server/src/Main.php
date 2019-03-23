@@ -1,14 +1,17 @@
 <?php
 namespace ExiaRPG;
 
+use Symfony\Component\Console\Output\OutputInterface;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
 class Main implements MessageComponentInterface {
     protected $clients;
+    protected $output;
 
-    public function __construct() {
+    public function __construct(OutputInterface $output) {
         $this->clients = new \SplObjectStorage;
+        $this->output = $output;
     }
 
     public function onOpen(ConnectionInterface $conn) {

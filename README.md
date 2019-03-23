@@ -1,6 +1,6 @@
 # Exia RPG
 
-En contruction
+En construction
 
 ## Exécuter les tests
 
